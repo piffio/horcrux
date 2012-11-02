@@ -173,7 +173,7 @@ directory /Volumes/$destination/$backup_basename/ not found"
 fi
 
 # Set duplicity parameters
-dup_params="-v$verbosity --name $destination --allow-source-mismatch --encrypt-key $encrypt_key $dup_params"
+dup_params="-v$verbosity --name $destination --allow-source-mismatch $dup_params"
 
 if [[ "$file" != '-' ]]; then
     dup_params="--file-to-restore $file $dup_params"
@@ -183,6 +183,9 @@ if [[ "$dry_run" == true ]]; then
 fi
 if [[ "$use_agent" == true ]]; then
     dup_params="--use-agent $dup_params"
+fi
+if [[ ! "$encrypt_key" == '-' ]]; then
+    dup_params="--encrypt-key $encrypt_key $dup_params"
 fi
 if [[ ! "$sign_key" == '-' ]]; then
     dup_params="--sign-key $sign_key $dup_params"
