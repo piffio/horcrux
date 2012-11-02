@@ -50,6 +50,7 @@ full_if_old=360D         # Cause 'full' operation to perform a full
                          # backup if older than 360 days
 backup_basename='backup' # Directory name for local backups (i.e., destination
                          # /Volumes/my_drive/backup/ or /media/my_drive/backup/)
+tempdir=''               # the TMPDIR to use for Duplicity
 dup_params=''            # Parameters to pass to Duplicity
 EOF
     exit 1
@@ -67,6 +68,7 @@ _show_help () {
     printf "Options:\n"
     printf -- "-a: use gpg-agent ($use_agent)\n"
     printf -- "-c: number of full filesets to leave during remove operation ($remove_n)\n"
+	printf -- "-d: the tempdir to use for Duplicity\n"
     printf -- "-f: file to restore\n"
     printf -- "-h: show help (this text)\n"
     printf -- "-k: encryption key ($encrypt_key)\n"
@@ -105,9 +107,11 @@ _report_error () {
 ################################################################################
 
 # Parse single-letter options
-while getopts :f:nat:c:v:k:i:o:s:z:h opt; do
+while getopts :f:nat:c:v:k:i:o:s:z:hd: opt; do
     case "$opt" in
         a)    use_agent=true
+              ;;
+        d)    tempdir="$OPTARG"
               ;;
         f)    file="$OPTARG"
               ;;
@@ -195,6 +199,9 @@ if [[ "$time" != "now" ]]; then
 fi
 if [[ "$vol_size" != 25 ]]; then
     dup_params="--volsize $vol_size $dup_params"
+fi
+if [[ "$tempdir" != '' ]]; then
+	dup_params="--tempdir $tempdir $dup_params"
 fi
 
 # Quick checks
