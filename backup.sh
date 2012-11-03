@@ -31,7 +31,7 @@ fi
 # Check that we have the "archive" directory
 if [ -d "$bkp_archive_dir" ]; then
     if [ -x "$horcrux_bin" ]; then
-        horcrux auto $bkp_name
+        $horcrux_bin auto $bkp_name
 	else
 		echo "Missing horcrux binary in $horcrux_bin, exiting"
 		exit 4
