@@ -5,7 +5,7 @@ bkp_mount_point=/mnt/backup
 bkp_archive_dir=${bkp_mount_point}/archive
 
 PATH=${HOME}/bin:${PATH}
-horcrux_bin=${HOME}/bin/horcrux
+horcrux_bin=/usr/local/bin/horcrux
 umount_on_exit=0
 
 if [ -z "$bkp_name" ]; then
